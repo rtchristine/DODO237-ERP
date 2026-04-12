@@ -3,10 +3,12 @@ import CustomerList from './pages/CustomerList';
 import ContractList from './pages/ContractList';
 import AgentList from './pages/AgentList';
 import RevenueList from './pages/RevenueList';
+import QuoteList from './pages/QuoteList';
 
 const menuItems = [
   { id: 'customers', label: '고객 관리', icon: '👤' },
-  { id: 'contracts', label: '견적/계약', icon: '📋' },
+  { id: 'quotes', label: '견적 산출', icon: '🔢' },
+  { id: 'contracts', label: '계약 관리', icon: '📋' },
   { id: 'agents', label: '설계사 관리', icon: '🏢' },
   { id: 'revenue', label: '매출/정산', icon: '💰' },
 ];
@@ -54,6 +56,7 @@ function App() {
         </header>
         <div style={{ flex: 1, padding: 24, overflow: 'auto' }}>
           {currentPage === 'customers' && <CustomerList />}
+          {currentPage === 'quotes' && <QuoteList />}
           {currentPage === 'contracts' && <ContractList />}
           {currentPage === 'agents' && <AgentList />}
           {currentPage === 'revenue' && <RevenueList />}
