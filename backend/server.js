@@ -11,6 +11,7 @@ app.use(express.json());
 
 // 라우트
 app.use('/api/customers', require('./routes/customers'));
+app.use('/api/contracts', require('./routes/contracts'));
 
 // 헬스 체크
 app.get('/api/health', (req, res) => {

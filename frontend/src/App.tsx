@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CustomerList from './pages/CustomerList';
+import ContractList from './pages/ContractList';
 
 const menuItems = [
   { id: 'customers', label: 'Customer Management', icon: '👤' },
@@ -24,7 +25,6 @@ function App() {
         flexDirection: 'column',
         flexShrink: 0,
       }}>
-        {/* Logo */}
         <div style={{
           padding: '20px 16px',
           borderBottom: '1px solid rgba(255,255,255,0.1)',
@@ -41,7 +41,6 @@ function App() {
           )}
         </div>
 
-        {/* Menu */}
         <nav style={{ padding: '12px 0', flex: 1 }}>
           {menuItems.map(item => (
             <div
@@ -65,7 +64,6 @@ function App() {
           ))}
         </nav>
 
-        {/* User info */}
         <div style={{
           padding: '16px',
           borderTop: '1px solid rgba(255,255,255,0.1)',
@@ -76,9 +74,8 @@ function App() {
         </div>
       </aside>
 
-      {/* Main content */}
+      {/* Main */}
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Top header */}
         <header style={{
           height: 56,
           background: '#fff',
@@ -92,15 +89,12 @@ function App() {
             {menuItems.find(m => m.id === currentPage)?.icon}{' '}
             {menuItems.find(m => m.id === currentPage)?.label}
           </h1>
-          <div style={{ fontSize: 13, color: '#888' }}>
-            dodo237 ERP System
-          </div>
+          <div style={{ fontSize: 13, color: '#888' }}>dodo237 ERP System</div>
         </header>
 
-        {/* Page content */}
         <div style={{ flex: 1, padding: 24, overflow: 'auto' }}>
           {currentPage === 'customers' && <CustomerList />}
-          {currentPage === 'contracts' && <ComingSoon label="Quote/Contract Management" />}
+          {currentPage === 'contracts' && <ContractList />}
           {currentPage === 'agents' && <ComingSoon label="Agent Management" />}
           {currentPage === 'revenue' && <ComingSoon label="Revenue/Settlement" />}
         </div>
@@ -112,12 +106,8 @@ function App() {
 function ComingSoon({ label }: { label: string }) {
   return (
     <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '60vh',
-      color: '#aaa',
-      fontSize: 18,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      height: '60vh', color: '#aaa', fontSize: 18,
     }}>
       {label} - Coming Soon
     </div>
