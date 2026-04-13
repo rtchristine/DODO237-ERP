@@ -70,3 +70,40 @@ export const EMPTY_QUOTE_FORM = {
   memo: '',
   agentId: '',
 };
+
+// ── CM 채널 할인율 (다이렉트 온라인)
+export const CM_RATES: Record<string, number> = {
+  samsung:  0.196,
+  hyundai:  0.175,
+  kb:       0.173,
+  db:       0.172,
+  hanhwa:   0.128,
+  heungkuk: 0.175,
+  meritz:   0.162,
+  lotte:    0.176,
+  hana:     0.120,
+  mg:       0,
+};
+
+// ── TM 채널 할인율 (전화 가입)
+export const TM_RATES: Record<string, number> = {
+  samsung:  0.146,
+  hyundai:  0.117,
+  kb:       0.134,
+  db:       0.117,
+  hanhwa:   0.150,
+  heungkuk: 0.130,
+  meritz:   0.162,
+  lotte:    0,
+  hana:     0.085,
+  mg:       0,
+};
+
+// ── 채널 레이블
+export const CHANNEL_LABELS = {
+  off: '오프라인',
+  cm:  'CM (다이렉트)',
+  tm:  'TM (전화)',
+} as const;
+
+export type ChannelKey = keyof typeof CHANNEL_LABELS;

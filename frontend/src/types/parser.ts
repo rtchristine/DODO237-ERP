@@ -27,11 +27,13 @@ export interface ParsedCoverage {
   val: string;   // 예: '5억원', '가입'
 }
 
-/** 파싱된 보험사 보험료 */
+/** 파싱된 보험사 보험료 (채널별 포함) */
 export interface ParsedInsurer {
-  id: string;    // 예: 'samsung', 'hyundai'
-  name: string;  // 예: '삼성', '현대'
-  off: number;   // 오프라인 보험료 (원)
+  id: string;       // 예: 'samsung', 'hyundai'
+  name: string;     // 예: '삼성', '현대'
+  off: number;      // 오프라인 보험료 (원)
+  cm?: number;      // CM 채널 보험료 (원)
+  tm?: number;      // TM 채널 보험료 (원)
 }
 
 /** 전체 파싱 결과 */

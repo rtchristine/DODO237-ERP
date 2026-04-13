@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useQuoteForm }   from '../hooks/useQuoteForm';
 import { useAgents }      from '../hooks/useAgents';
 import PasteModal         from './PasteModal';
+import RateTable          from './RateTable';
 import {
   INSURER_LIST, DRIVE_RANGE_OPTIONS, AGE_LIMIT_OPTIONS,
   DAEMUL_OPTIONS, EMERGENCY_OPTIONS, PAY_METHOD_OPTIONS,
@@ -44,7 +45,7 @@ interface Props {
 }
 
 export default function QuoteForm({ quoteId, onClose }: Props) {
-  const { form, loading, saving, setField, applyParsed, save } = useQuoteForm(quoteId);
+  const { form, insurers, loading, saving, setField, applyParsed, save } = useQuoteForm(quoteId);
   const { agents } = useAgents();
   const [showPaste, setShowPaste] = useState(false);
 
@@ -105,6 +106,9 @@ export default function QuoteForm({ quoteId, onClose }: Props) {
             취소
           </button>
         </div>
+
+        {/* ── 보험료 비교표 (파싱 후 표시) */}
+        <RateTable insurers={insurers} />
 
         {/* ── 섹션 1: 차량 / 피보험자 */}
         <div style={S.card}>

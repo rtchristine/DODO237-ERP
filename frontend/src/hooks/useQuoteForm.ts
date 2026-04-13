@@ -6,11 +6,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { apiGet, apiPost, apiPut } from '../utils/api';
 import { QuoteFormState, QuoteSavePayload } from '../types/quote';
-import { ParseResult } from '../types/parser';
+import { ParseResult, ParsedInsurer } from '../types/parser';
 import { EMPTY_QUOTE_FORM } from '../constants/insurance';
+import { enrichWithRates } from '../utils/rate-calculator';
 
 interface UseQuoteFormResult {
   form: QuoteFormState;
+  insurers: ParsedInsurer[];    // 파싱된 보험사 목록 (cm/tm 포함)
   loading: boolean;
   saving: boolean;
   setField: (key: keyof QuoteFormState) => (
@@ -21,9 +23,10 @@ interface UseQuoteFormResult {
 }
 
 export function useQuoteForm(quoteId: number | null): UseQuoteFormResult {
-  const [form, setForm]       = useState<QuoteFormState>({ ...EMPTY_QUOTE_FORM });
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving]   = useState(false);
+  const [form, setForm]         = useState<QuoteFormState>({ ...EMPTY_QUOTE_FORM });
+  const [insurers, setInsurers] = useState<ParsedInsurer[]>([]);
+  const [loading, setLoading]   = useState(false);
+  const [saving, setSaving]     = useState(false);
 
   // 기존 견적 불러오기
   useEffect(() => {
@@ -69,9 +72,9 @@ export function useQuoteForm(quoteId: number | null): UseQuoteFormResult {
     []
   );
 
-  // 파싱 결과 → 폼 자동 입력
+  // 파싱 결과 → 폼 자동 입력 + 보험사 목록 저장
   const applyParsed = useCallback((result: ParseResult) => {
-    const { info, coverages } = result;
+    const { info, coverages, insurers: parsedInsurers } = result;
 
     // 담보 맵 생성
     const covMap: Record<string, string> = {};
@@ -84,6 +87,7 @@ export function useQuoteForm(quoteId: number | null): UseQuoteFormResult {
       endDate = `${parseInt(y) + 1}-${m}-${d}`;
     }
 
+    // 폼 업데이트
     setForm(prev => ({
       ...prev,
       insuredName:      info.name        || prev.insuredName,
@@ -107,6 +111,9 @@ export function useQuoteForm(quoteId: number | null): UseQuoteFormResult {
       coverJacha:       covMap['자기차량'] || prev.coverJacha,
       coverEmergency:   covMap['긴급출동'] || prev.coverEmergency,
     }));
+
+    // 보험사 목록: CM/TM 계산값 추가 후 저장
+    setInsurers(enrichWithRates(parsedInsurers));
   }, []);
 
   // 저장 (신규 / 수정)
@@ -158,5 +165,5 @@ export function useQuoteForm(quoteId: number | null): UseQuoteFormResult {
     }
   }, [form, quoteId]);
 
-  return { form, loading, saving, setField, applyParsed, save };
+  return { form, insurers, loading, saving, setField, applyParsed, save };
 }
