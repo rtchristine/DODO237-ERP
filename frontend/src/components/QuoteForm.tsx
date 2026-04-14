@@ -9,6 +9,7 @@ import { useQuoteForm }   from '../hooks/useQuoteForm';
 import { useAgents }      from '../hooks/useAgents';
 import PasteModal         from './PasteModal';
 import RateTable          from './RateTable';
+import KakaoText          from './KakaoText';
 import {
   INSURER_LIST, DRIVE_RANGE_OPTIONS, AGE_LIMIT_OPTIONS,
   DAEMUL_OPTIONS, EMERGENCY_OPTIONS, PAY_METHOD_OPTIONS,
@@ -109,6 +110,9 @@ export default function QuoteForm({ quoteId, onClose }: Props) {
 
         {/* ── 보험료 비교표 (파싱 후 표시) */}
         <RateTable insurers={insurers} />
+
+        {/* ── 카카오톡 전송 텍스트 생성 */}
+        <KakaoText form={form} insurers={insurers} />
 
         {/* ── 섹션 1: 차량 / 피보험자 */}
         <div style={S.card}>
