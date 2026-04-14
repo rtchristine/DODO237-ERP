@@ -253,10 +253,18 @@ export default function QuoteForm({ quoteId, onClose }: Props) {
             </div>
             <div>
               <label style={S.label}>자기차량</label>
-              <select style={S.input} value={form.coverJacha} onChange={setField('coverJacha')}>
-                <option>가입</option>
-                <option>미가입</option>
-              </select>
+              <input
+                style={S.input}
+                value={form.coverJacha}
+                onChange={setField('coverJacha')}
+                placeholder="가입 / 20%/20/50 등"
+                list="jacha-presets"
+              />
+              <datalist id="jacha-presets">
+                <option value="가입" />
+                <option value="미가입" />
+                <option value="20%/20/50" />
+              </datalist>
             </div>
             <div>
               <label style={S.label}>긴급출동</label>

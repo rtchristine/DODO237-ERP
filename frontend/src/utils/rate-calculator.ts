@@ -23,12 +23,12 @@ export function calcTm(off: number, insurerId: string): number {
   return trunc10(off * (1 - rate));
 }
 
-/** 보험사 보험료에 CM/TM 계산값 추가 */
+/** 보험사 보험료에 CM/TM 계산값 추가 (이미 파싱된 값이 있으면 우선 사용) */
 export function enrichWithRates(insurers: ParsedInsurer[]): ParsedInsurer[] {
   return insurers.map(ins => ({
     ...ins,
-    cm:  calcCm(ins.off, ins.id),
-    tm:  calcTm(ins.off, ins.id),
+    cm: ins.cm && ins.cm > 0 ? ins.cm : calcCm(ins.off, ins.id),
+    tm: ins.tm && ins.tm > 0 ? ins.tm : calcTm(ins.off, ins.id),
   }));
 }
 
