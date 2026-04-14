@@ -12,7 +12,7 @@ import RateTable          from './RateTable';
 import KakaoText          from './KakaoText';
 import {
   INSURER_LIST, DRIVE_RANGE_OPTIONS, AGE_LIMIT_OPTIONS,
-  DAEMUL_OPTIONS, EMERGENCY_OPTIONS, PAY_METHOD_OPTIONS,
+  DAEMUL_OPTIONS, JASANG_OPTIONS, EMERGENCY_OPTIONS, PAY_METHOD_OPTIONS,
 } from '../constants/insurance';
 
 // ── 공통 스타일
@@ -176,17 +176,29 @@ export default function QuoteForm({ quoteId, onClose }: Props) {
             </div>
             <div>
               <label style={S.label}>운전범위</label>
-              <select style={S.input} value={form.driveRange} onChange={setField('driveRange')}>
-                <option value="">선택</option>
-                {DRIVE_RANGE_OPTIONS.map(o => <option key={o}>{o}</option>)}
-              </select>
+              <input
+                style={S.input}
+                value={form.driveRange}
+                onChange={setField('driveRange')}
+                placeholder="부부한정 등"
+                list="drive-presets"
+              />
+              <datalist id="drive-presets">
+                {DRIVE_RANGE_OPTIONS.map(o => <option key={o} value={o} />)}
+              </datalist>
             </div>
             <div>
               <label style={S.label}>연령한정</label>
-              <select style={S.input} value={form.ageLimit} onChange={setField('ageLimit')}>
-                <option value="">선택</option>
-                {AGE_LIMIT_OPTIONS.map(o => <option key={o}>{o}</option>)}
-              </select>
+              <input
+                style={S.input}
+                value={form.ageLimit}
+                onChange={setField('ageLimit')}
+                placeholder="만35세이상 등"
+                list="age-presets"
+              />
+              <datalist id="age-presets">
+                {AGE_LIMIT_OPTIONS.map(o => <option key={o} value={o} />)}
+              </datalist>
             </div>
           </div>
           <div style={S.row3}>
@@ -239,7 +251,16 @@ export default function QuoteForm({ quoteId, onClose }: Props) {
             </div>
             <div>
               <label style={S.label}>자상</label>
-              <input style={S.input} value={form.coverJasang} onChange={setField('coverJasang')} placeholder="예) 3억/5천" />
+              <input
+                style={S.input}
+                value={form.coverJasang}
+                onChange={setField('coverJasang')}
+                placeholder="예) 2억/5천"
+                list="jasang-presets"
+              />
+              <datalist id="jasang-presets">
+                {JASANG_OPTIONS.map(o => <option key={o} value={o} />)}
+              </datalist>
             </div>
           </div>
           <div style={S.row3}>

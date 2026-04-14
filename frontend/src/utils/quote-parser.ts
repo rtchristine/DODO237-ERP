@@ -159,17 +159,24 @@ function parseCoverages(txt: string, info: ParsedInfo): ParsedCoverage[] {
   // 대인II (항상 무한)
   coverages.push({ key: '대인II', val: '무한' });
 
-  // 대물
-  const daemulM = txt.match(/대물\s+(\d+억)/);
-  coverages.push({ key: '대물', val: daemulM ? `${daemulM[1]}원` : '5억원' });
+  // 대물 (예: "5억", "5천만", "20억")
+  const daemulM = txt.match(/대물\s+(\d+(?:\.\d+)?)\s*(억|천만?)/);
+  if (daemulM) {
+    const num  = daemulM[1];
+    const unit = daemulM[2].includes('천') ? '천만' : '억';
+    coverages.push({ key: '대물', val: `${num}${unit}원` });
+  } else {
+    coverages.push({ key: '대물', val: '5억원' });
+  }
 
-  // 자상
-  const jasangM = txt.match(/자상\s+(\d+억\/\d+(?:천|억))/);
+  // 자상 (예: "2억/5천", "5억/1억", "무한")
+  const jasangM = txt.match(/자상\s+(\d+(?:\.\d+)?억\/\d+(?:천|억)?)/)
+              || txt.match(/자상\s+(무한)/);
   if (jasangM) coverages.push({ key: '자상', val: jasangM[1] });
 
-  // 무보험
-  const muM = txt.match(/무보험\s+(\d+억)/);
-  if (muM) coverages.push({ key: '무보험', val: `${muM[1]}원` });
+  // 무보험 (예: "2억", "5억")
+  const muM = txt.match(/무보험\s+(\d+(?:\.\d+)?)\s*억/);
+  if (muM) coverages.push({ key: '무보험', val: `${muM[1]}억원` });
 
   // 자기차량: 가입/미가입 또는 자부담 형식 (예: "20%/20/50")
   const jachaM = txt.match(/자(?:기차량|차)\s+(\d+%\/\d+\/\d+)/)
