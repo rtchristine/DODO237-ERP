@@ -250,7 +250,7 @@ export default function QuoteForm({ quoteId, onClose }: Props) {
               </select>
             </div>
             <div>
-              <label style={S.label}>자상</label>
+              <label style={S.label}>자기신체사고/자동차상해</label>
               <input
                 style={S.input}
                 value={form.coverJasang}
